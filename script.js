@@ -44,6 +44,7 @@ function startUp(){
 
     const rgb_button = document.querySelector("button.rgb")
     rgb_button.addEventListener("click", event => {
+        rgb_button.classList.toggle("active")
         rgb = !rgb
         generateBoard(dimension)
         addInk(rgb)
