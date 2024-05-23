@@ -12,14 +12,12 @@ body {
 }
 
 .row {
-    width: 800px;
-    height: 200px;
     display: flex;
+    flex: auto;
     border: .5px solid black
 }
 
 .cell {
-    width: 200px;
     flex: auto;
     border: .5px solid black;
 }
