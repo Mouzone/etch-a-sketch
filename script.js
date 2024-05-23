@@ -1,4 +1,6 @@
 function generateBoard(dimension){
+    board.innerHTML = ""
+
     for (let i = 0; i < dimension; i++){
         let row = document.createElement("div")
         row.classList.add("row")
@@ -12,16 +14,26 @@ function generateBoard(dimension){
     }
 }
 
+function getRandomRGBColor() {
+    const r = Math.floor(Math.random() * 256);
+    const g = Math.floor(Math.random() * 256);
+    const b = Math.floor(Math.random() * 256);
+    return `rgb(${r}, ${g}, ${b})`;
+}
+
 function addInk(rgb){
     const cells = document.querySelectorAll(".cell")
-    if (!rgb){
-        cells.forEach(cell => {
-            cell.addEventListener("mouseover", event => {
+    cells.forEach(cell => {
+        cell.addEventListener("mouseover", event => {
+            if (!rgb) {
                 cell.style.backgroundColor = "black"
-            })
+            } else {
+                cell.style.backgroundColor = getRandomRGBColor()
+            }
         })
-    }
+    })
 }
+
 function startUp(){
     let dimension = parseInt(prompt("Enter length (in pixels)"))
     while (isNaN(dimension) || dimension > 100 || dimension < 1) {
@@ -30,11 +42,12 @@ function startUp(){
     generateBoard(dimension)
     addInk(rgb)
 
-    // const rgb_button = document.querySelector("button.rgb")
-    // rgb_button.addEventListener("click", event => {
-    //     rgb = true
-    //     //reset addInk and the board
-    // })
+    const rgb_button = document.querySelector("button.rgb")
+    rgb_button.addEventListener("click", event => {
+        rgb = true
+        generateBoard(dimension)
+        addInk(rgb)
+    })
 
     const reset_button = document.querySelector("button.reset")
     reset_button.addEventListener("click", event => {
@@ -44,13 +57,6 @@ function startUp(){
         })
     })
 }
-
-// function getRandomRGBColor() {
-//     const r = Math.floor(Math.random() * 256);
-//     const g = Math.floor(Math.random() * 256);
-//     const b = Math.floor(Math.random() * 256);
-//     return `rgb(${r}, ${g}, ${b})`;
-// }
 
 let rgb = false
 const board = document.querySelector(".board")
