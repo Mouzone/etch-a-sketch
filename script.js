@@ -44,7 +44,7 @@ function startUp(){
 
     const rgb_button = document.querySelector("button.rgb")
     rgb_button.addEventListener("click", event => {
-        rgb = true
+        rgb = !rgb
         generateBoard(dimension)
         addInk(rgb)
     })
