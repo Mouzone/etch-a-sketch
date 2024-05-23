@@ -23,6 +23,7 @@ function getRandomRGBColor() {
 
 function addInk(rgb){
     const cells = document.querySelectorAll(".cell")
+
     cells.forEach(cell => {
         cell.addEventListener("mouseover", event => {
             if (!rgb) {
@@ -42,6 +43,14 @@ function startUp(){
     generateBoard(dimension)
     addInk(rgb)
 
+    const reset_button = document.querySelector("button.reset")
+    reset_button.addEventListener("click", event => {
+        const cells = document.querySelectorAll(".cell")
+        cells.forEach(cell=> {
+            cell.style.backgroundColor = "white"
+        })
+    })
+
     const rgb_button = document.querySelector("button.rgb")
     rgb_button.addEventListener("click", event => {
         rgb_button.classList.toggle("active")
@@ -50,12 +59,15 @@ function startUp(){
         addInk(rgb)
     })
 
-    const reset_button = document.querySelector("button.reset")
-    reset_button.addEventListener("click", event => {
-        const cells = document.querySelectorAll(".cell")
-        cells.forEach(cell=> {
-            cell.style.backgroundColor = "white"
-        })
+    // do default 10% for now, add slider to select percentage later
+    // only do this for black ink
+    const gradient_button = document.querySelector("button.gradient")
+    gradient_button.addEventListener("click", event => {
+        rgb_button.classList.remove("active")
+        rgb = false
+        // opacity = .10
+        // generateBoard(dimension)
+        // addInk(rgb, opacity)
     })
 }
 
