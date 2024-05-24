@@ -17,27 +17,26 @@ function generateBoard(dimension){
     }
 }
 
-function getRandomRGBColor() {
-    const r = Math.floor(Math.random() * 256);
-    const g = Math.floor(Math.random() * 256);
-    const b = Math.floor(Math.random() * 256);
-    return `rgba(${r}, ${g}, ${b}, 1)`;
-}
+// function getRandomRGBColor() {
+//     const r = Math.floor(Math.random() * 256);
+//     const g = Math.floor(Math.random() * 256);
+//     const b = Math.floor(Math.random() * 256);
+//     return `rgba(${r}, ${g}, ${b}, 1)`;
+// }
 
-function addInk(rgb, gradient){
+function addInk(color, gradient){
     const cells = document.querySelectorAll(".cell")
 
     cells.forEach(cell => {
         cell.addEventListener("mouseover", event => {
-            if (!rgb && gradient) {
-                let alpha_value = parseFloat(cell.style.backgroundColor.split(',')[3].replace(')', ''))
-                cell.style.backgroundColor =
-                    `rgba(0, 0, 0, ${alpha_value + (gradient * .01)})`
-            } else if (!rgb) {
-                cell.style.backgroundColor = "rgba(0, 0, 0, 1)"
-            } else {
-                cell.style.backgroundColor = getRandomRGBColor()
-            }
+            let match = color.match(/^rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*(?:,\s*([01]?\.?\d+)\s*)?\)$/);
+            let r = match[1]
+            let g = match[2]
+            let b = match[3]
+            let alpha = match[4] ?? 0
+            // gradient effect not really working 
+            cell.style.backgroundColor = `rgba(${r}, ${g}, ${b},${Math.min(1, alpha + (gradient * .01))})`;
+            console.log(cell.style.backgroundColor)
         })
     })
 }
@@ -49,37 +48,51 @@ function startUp(){
     }
 
     generateBoard(dimension)
-    addInk(rgb, gradient)
+    addInk(color, gradient)
 
     const reset_button = document.querySelector("button.reset")
     reset_button.addEventListener("click", event => {
         generateBoard(dimension)
-        addInk(rgb, gradient)
+        addInk(color, gradient)
     })
 
-    const rgb_button = document.querySelector("button.rgb")
-    rgb_button.addEventListener("click", event => {
-        rgb_button.classList.toggle("active")
-        gradient_slider.value = "100"
-        const gradient_slider_text = document.querySelector("p#rangeValue")
-        gradient_slider_text.textContent = "100"
-        rgb = !rgb
-        gradient = 100
-        generateBoard(dimension)
-        addInk(rgb, gradient)
+    // auto set to black color first
+    const black = document.querySelector("button.color.black")
+    black.classList.add("active")
+
+    const color_buttons = document.querySelectorAll("button.color")
+    color_buttons.forEach(color_button => {
+        color_button.addEventListener("click", event => {
+            color_buttons.forEach(color_button=>color_button.classList.remove("active"))
+            color_button.classList.toggle("active")
+            color = window.getComputedStyle(color_button).backgroundColor
+            generateBoard(dimension)
+            addInk(color, gradient)
+        })
     })
+
+    // const rgb_button = document.querySelector("button.rgb")
+    // rgb_button.addEventListener("click", event => {
+    //     rgb_button.classList.toggle("active")
+    //     gradient_slider.value = "100"
+    //     const gradient_slider_text = document.querySelector("p#rangeValue")
+    //     gradient_slider_text.textContent = "100"
+    //     rgb = !rgb
+    //     gradient = 100
+    //     generateBoard(dimension)
+    //     addInk(rgb, color, gradient)
+    // })
 
     const gradient_slider = document.querySelector("input")
-    gradient_slider.addEventListener("click", event => {
-        rgb_button.classList.remove("active")
-        rgb = false
+    gradient_slider.addEventListener("input", event => {
         gradient = gradient_slider.value
         generateBoard(dimension)
-        addInk(rgb, gradient)
+        addInk(color, gradient)
     })
 }
 
-let rgb = false
+// make these default arguments of addInk later
 let gradient = 100
+let color = "rgba(0, 0, 0, 1)"
 const board = document.querySelector(".board")
 startUp()
