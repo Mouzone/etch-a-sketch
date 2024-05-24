@@ -29,3 +29,9 @@ button {
 .active {
     background-color: red
 }
+
+div.gradient {
+    height: 35px;
+    display: flex;
+    align-items: center;
+}

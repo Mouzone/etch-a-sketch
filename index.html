@@ -8,11 +8,11 @@
     <body>
         <div class = "board"></div>
         <button class="reset"> Reset </button>
-<!--     Each button resets the grid to the size that was entered -->
-<!--     make rgb be a toggle and have a visual indicator that it is on -->
         <button class="rgb"> RGB </button>
-<!--    add a slide for gradient to change from 0 to 100%-->
-        <button class="gradient"> Gradient </button>
+        <div class="gradient">
+            <input type="range" min="0" max="100" value="100" oninput="rangeValue.innerText = this.value">
+            <p id="rangeValue">100</p>
+        </div>
     </body>
     <script src="script.js"></script>
 </html>

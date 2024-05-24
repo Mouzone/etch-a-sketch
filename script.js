@@ -32,7 +32,7 @@ function addInk(rgb, gradient){
             if (!rgb && gradient) {
                 let alpha_value = parseFloat(cell.style.backgroundColor.split(',')[3].replace(')', ''))
                 cell.style.backgroundColor =
-                    `rgba(0, 0, 0, ${alpha_value + .1})`
+                    `rgba(0, 0, 0, ${alpha_value + (gradient * .01)})`
             } else if (!rgb) {
                 cell.style.backgroundColor = "rgba(0, 0, 0, 1)"
             } else {
@@ -60,29 +60,26 @@ function startUp(){
     const rgb_button = document.querySelector("button.rgb")
     rgb_button.addEventListener("click", event => {
         rgb_button.classList.toggle("active")
-        gradient_button.classList.remove("active")
+        gradient_slider.value = "100"
+        const gradient_slider_text = document.querySelector("p#rangeValue")
+        gradient_slider_text.textContent = "100"
         rgb = !rgb
-        gradient = false
+        gradient = 100
         generateBoard(dimension)
         addInk(rgb, gradient)
     })
 
-    // do default 10% for now, add slider to select percentage later
-    // make it so gradient will take a value between 0 and 1
-    // when oyu put it in the function even if no gradient add it then floor it to 1 thus opacity will always work
-    // only do this for black ink
-    const gradient_button = document.querySelector("button.gradient")
-    gradient_button.addEventListener("click", event => {
+    const gradient_slider = document.querySelector("input")
+    gradient_slider.addEventListener("click", event => {
         rgb_button.classList.remove("active")
-        gradient_button.classList.toggle("active")
         rgb = false
-        gradient = !gradient
+        gradient = gradient_slider.value
         generateBoard(dimension)
         addInk(rgb, gradient)
     })
 }
 
 let rgb = false
-let gradient = false
+let gradient = 100
 const board = document.querySelector(".board")
 startUp()
