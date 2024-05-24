@@ -1,3 +1,5 @@
+// host on github pages to play around with
+
 function generateBoard(dimension){
     board.innerHTML = ""
 
@@ -60,6 +62,7 @@ function startUp(){
         rgb_button.classList.toggle("active")
         gradient_button.classList.remove("active")
         rgb = !rgb
+        gradient = false
         generateBoard(dimension)
         addInk(rgb, gradient)
     })

@@ -1,0 +1,5 @@
+- make gradient into a slider
+- make a color palette where each button changes ink, and then add a color option for rgb
+- allow gradient to work for any of the colors except rgb
+- eraser button, such that now when you hover with mouseclickdown you remove the color
+-- but when you select a color you remove the eraser listener on all items
