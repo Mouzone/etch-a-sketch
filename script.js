@@ -56,8 +56,8 @@ function addInk(color, gradient=100){
 
 function startUp(){
     const rgb_button = document.querySelector("button.rgb")
-    const reset_button = document.querySelector("button.reset")
-    reset_button.addEventListener("click", event => {
+    const clear_button = document.querySelector("button.clear")
+    clear_button.addEventListener("click", event => {
         generateBoard(dimension)
         if (rgb_button.classList.contains("active")){
             addRGB()
