@@ -24,14 +24,68 @@ body {
 
 button {
     height: 40px;
+    margin: 0;
 }
 
 .active {
-    background-color: red
+    border: 3px red solid;
 }
 
-div.gradient {
-    height: 35px;
+input {
+    width: 200px;
+}
+
+.colors {
+    width: 200px;
     display: flex;
-    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    align-content: stretch;
+}
+
+button.color {
+    min-width: 70px;
+    min-height: 70px;
+    flex: 1;
+}
+.palette {
+    display: flex;
+    flex-direction: column;
+}
+
+.color.red {
+    background-color: red;
+}
+
+.color.orange {
+    background-color: orange;
+}
+
+.color.yellow {
+    background-color: yellow;
+}
+
+.color.green {
+    background-color: green;
+}
+
+.color.blue {
+    background-color: blue;
+}
+
+.color.indigo {
+    background-color: indigo;
+}
+
+.color.violet {
+    background-color: violet;
+}
+
+.color.black {
+    background-color: black;
+}
+
+.color.rgb {
+    background-image: linear-gradient(to right, red,orange,yellow,green,blue,indigo,violet);
+    margin-bottom: 20px;
 }

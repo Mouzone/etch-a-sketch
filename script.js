@@ -51,8 +51,8 @@ function startUp(){
     generateBoard(dimension)
     addInk(rgb, gradient)
 
-    const clear_button = document.querySelector("button.clear")
-    clear_button.addEventListener("click", event => {
+    const reset_button = document.querySelector("button.reset")
+    reset_button.addEventListener("click", event => {
         generateBoard(dimension)
         addInk(rgb, gradient)
     })
