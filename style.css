@@ -31,15 +31,12 @@ button {
     border: 3px red solid;
 }
 
-div.gradient {
-    height: 35px;
-    display: flex;
-    align-items: center;
+input {
+    width: 200px;
 }
 
-div.colors {
+.colors {
     width: 200px;
-    height: 100px;
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
@@ -50,6 +47,10 @@ button.color {
     min-width: 70px;
     min-height: 70px;
     flex: 1;
+}
+.palette {
+    display: flex;
+    flex-direction: column;
 }
 
 .color.red {
@@ -82,4 +83,9 @@ button.color {
 
 .color.black {
     background-color: black;
+}
+
+.color.rgb {
+    background-image: linear-gradient(to right, red,orange,yellow,green,blue,indigo,violet);
+    margin-bottom: 20px;
 }
