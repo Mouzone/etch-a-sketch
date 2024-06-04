@@ -1,6 +1,7 @@
 // host on github pages to play around with
 
 function generateBoard(dimension){
+    const board = document.querySelector(".board")
     board.innerHTML = ""
 
     for (let i = 0; i < dimension; i++){
@@ -17,69 +18,66 @@ function generateBoard(dimension){
     }
 }
 
-function getRandomRGBColor() {
-    const r = Math.floor(Math.random() * 256);
-    const g = Math.floor(Math.random() * 256);
-    const b = Math.floor(Math.random() * 256);
-    return `rgba(${r}, ${g}, ${b}, 1)`;
-}
+// function getRandomRGBColor() {
+//     const r = Math.floor(Math.random() * 256);
+//     const g = Math.floor(Math.random() * 256);
+//     const b = Math.floor(Math.random() * 256);
+//     return `rgba(${r}, ${g}, ${b}, 1)`;
+// }
 
-function addInk(rgb, gradient){
+function addInk(color, gradient=100){
     const cells = document.querySelectorAll(".cell")
 
     cells.forEach(cell => {
         cell.addEventListener("mouseover", event => {
-            if (!rgb && gradient) {
-                let alpha_value = parseFloat(cell.style.backgroundColor.split(',')[3].replace(')', ''))
-                cell.style.backgroundColor =
-                    `rgba(0, 0, 0, ${alpha_value + (gradient * .01)})`
-            } else if (!rgb) {
-                cell.style.backgroundColor = "rgba(0, 0, 0, 1)"
-            } else {
-                cell.style.backgroundColor = getRandomRGBColor()
-            }
+            console.log(cell.style.backgroundColor)
+            let match = color.match(/^rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*(?:,\s*([01]?\.?\d+)\s*)?\)$/);
+            let r = match[1]
+            let g = match[2]
+            let b = match[3]
+            let alpha = match[4] ?? 0
+            cell.style.backgroundColor = `rgba(${r}, ${g}, ${b},${Math.min(1, alpha + (gradient * .01))})`;
         })
     })
 }
 
 function startUp(){
+    const reset_button = document.querySelector("button.reset")
+    reset_button.addEventListener("click", event => {
+        generateBoard(dimension)
+        addInk(color, gradient)
+    })
+
+    const color_buttons = document.querySelectorAll("button.color")
+    color_buttons.forEach(color_button => {
+        color_button.addEventListener("click", event => {
+            color_buttons.forEach(color_button=>color_button.classList.remove("active"))
+            color_button.classList.toggle("active")
+            color = window.getComputedStyle(color_button).backgroundColor
+            generateBoard(dimension)
+            addInk(color, gradient)
+        })
+    })
+
+    const gradient_slider = document.querySelector("input")
+    gradient_slider.addEventListener("input", event => {
+        gradient = gradient_slider.value
+        generateBoard(dimension)
+        addInk(color, gradient)
+    })
+
     let dimension = parseInt(prompt("Enter length (in pixels)"))
     while (isNaN(dimension) || dimension > 100 || dimension < 1) {
         dimension = parseInt(prompt("Enter valid length"))
     }
 
+    //make gradient work on startup with black color
+    const black = document.querySelector("button.color.black")
+    black.classList.add("active")
+    let color = "rgba(0, 0, 0, 0)"
+    let gradient = 100
     generateBoard(dimension)
-    addInk(rgb, gradient)
-
-    const reset_button = document.querySelector("button.reset")
-    reset_button.addEventListener("click", event => {
-        generateBoard(dimension)
-        addInk(rgb, gradient)
-    })
-
-    const rgb_button = document.querySelector("button.rgb")
-    rgb_button.addEventListener("click", event => {
-        rgb_button.classList.toggle("active")
-        gradient_slider.value = "100"
-        const gradient_slider_text = document.querySelector("p#rangeValue")
-        gradient_slider_text.textContent = "100"
-        rgb = !rgb
-        gradient = 100
-        generateBoard(dimension)
-        addInk(rgb, gradient)
-    })
-
-    const gradient_slider = document.querySelector("input")
-    gradient_slider.addEventListener("click", event => {
-        rgb_button.classList.remove("active")
-        rgb = false
-        gradient = gradient_slider.value
-        generateBoard(dimension)
-        addInk(rgb, gradient)
-    })
+    addInk(color)
 }
 
-let rgb = false
-let gradient = 100
-const board = document.querySelector(".board")
 startUp()
