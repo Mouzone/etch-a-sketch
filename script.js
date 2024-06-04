@@ -18,19 +18,11 @@ function generateBoard(dimension){
     }
 }
 
-// function getRandomRGBColor() {
-//     const r = Math.floor(Math.random() * 256);
-//     const g = Math.floor(Math.random() * 256);
-//     const b = Math.floor(Math.random() * 256);
-//     return `rgba(${r}, ${g}, ${b}, 1)`;
-// }
-
 function addInk(color, gradient=100){
     const cells = document.querySelectorAll(".cell")
 
     cells.forEach(cell => {
         cell.addEventListener("mouseover", event => {
-            console.log(cell.style.backgroundColor)
             let match = color.match(/^rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*(?:,\s*([01]?\.?\d+)\s*)?\)$/);
             let r = match[1]
             let g = match[2]
@@ -41,21 +33,51 @@ function addInk(color, gradient=100){
     })
 }
 
+function getRandomRGBColor() {
+    const r = Math.floor(Math.random() * 256);
+    const g = Math.floor(Math.random() * 256);
+    const b = Math.floor(Math.random() * 256);
+    return `rgba(${r}, ${g}, ${b}, 1)`;
+}
+
+function addRGB(){
+    const cells = document.querySelectorAll(".cell")
+    const gradient_slider = document.querySelector("input")
+
+    cells.forEach(cell => {
+        cell.addEventListener("mouseover", event => {
+            cell.style.backgroundColor = getRandomRGBColor()
+        })
+    })
+
+    gradient_slider.disabled = true
+}
+
 function startUp(){
+    const rgb_button = document.querySelector("button.rgb")
     const reset_button = document.querySelector("button.reset")
     reset_button.addEventListener("click", event => {
         generateBoard(dimension)
-        addInk(color, gradient)
+        if (rgb_button.classList.contains("active")){
+            addRGB()
+        } else {
+            addInk(color, gradient)
+        }
     })
 
     const color_buttons = document.querySelectorAll("button.color")
     color_buttons.forEach(color_button => {
         color_button.addEventListener("click", event => {
+            gradient_slider.disabled = false
             color_buttons.forEach(color_button=>color_button.classList.remove("active"))
             color_button.classList.toggle("active")
-            color = window.getComputedStyle(color_button).backgroundColor
             generateBoard(dimension)
-            addInk(color, gradient)
+            if (color_button.classList.contains("rgb")){
+                addRGB()
+            } else{
+                color = window.getComputedStyle(color_button).backgroundColor
+                addInk(color, gradient)
+            }
         })
     })
 
