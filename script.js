@@ -38,12 +38,11 @@ function addRGB(){
     gradient_slider.disabled = true
 }
 
-function addInk(color, gradient=100){
+function addInk(color, gradient){
     const cells = document.querySelectorAll(".cell")
 
     cells.forEach(cell => {
         cell.addEventListener("mouseover", event => {
-            console.log(cell.style.backgroundColor)
             let match = color.match(/^rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*(?:,\s*([01]?\.?\d+)\s*)?\)$/);
             let r = match[1]
             let g = match[2]
@@ -89,6 +88,21 @@ function startUp(){
         addInk(color, gradient)
     })
 
+    const eraser_button = document.querySelector(".eraser")
+    eraser_button.addEventListener("click", event => {
+        // might need to refactor the ink event listener to its own function to remove it from all
+
+        // make active
+        color_buttons.forEach(color_button=>color_button.classList.remove("active"))
+        eraser_button.classList.toggle("active")
+
+        // turn off the ink and keep the current state
+
+        // add doubleclick event to each square
+
+        // if already active simply toggle it off and keep board and addback ink with proper gradient
+    })
+
     let dimension = parseInt(prompt("Enter length (in pixels)"))
     while (isNaN(dimension) || dimension > 100 || dimension < 1) {
         dimension = parseInt(prompt("Enter valid length"))
@@ -100,7 +114,7 @@ function startUp(){
     let color = "rgba(0, 0, 0, 0)"
     let gradient = 100
     generateBoard(dimension)
-    addInk(color)
+    addInk(color, gradient)
 }
 
 startUp()

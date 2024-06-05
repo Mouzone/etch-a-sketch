@@ -1,14 +1,17 @@
 body {
     display: flex;
     gap: 20px;
+    justify-content: center;
+    margin-top: 30px;
+    margin-bottom: 30px;
 }
 
 .board {
-    height: 800px;
-    width: 800px;
+    height: 750px;
+    width: 750px;
     display: flex;
     flex-direction: column;
-    border: .5px solid black
+    border: .1px solid black
 }
 
 .row {
